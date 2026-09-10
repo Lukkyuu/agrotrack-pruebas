@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ms-agrotrack-bff
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # --- COMPLETAR CON DIEGO ---
+          # Cuando el App Registration de Azure AD este creado, reemplazar
+          # {TENANT_ID} por el Directory (tenant) ID real.
+          issuer-uri: https://login.microsoftonline.com/{TENANT_ID}/v2.0
+          # El audience esperado suele ser el Application (client) ID del backend/API,
+          # se valida en JwtAudienceValidator (ver SecurityConfig).
+
+# URLs de los microservicios de dominio a los que el BFF hace de proxy.
+agrotrack:
+  services:
+    deliveries-url: http://localhost:8081
+    catalog-url: http://localhost:8082
+  security:
+    # Application (client) ID que debe aparecer en el claim "aud" del token.
+    expected-audience: CAMBIAR_CLIENT_ID

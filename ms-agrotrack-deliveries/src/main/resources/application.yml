@@ -1,0 +1,48 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: ms-agrotrack-deliveries
+  profiles:
+    active: local
+
+---
+# Perfil por defecto para desarrollar sin depender de la nube todavia.
+# Corre con: mvn spring-boot:run  (o -Dspring-boot.run.profiles=local)
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:h2:mem:agrotrack_deliveries;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+---
+# Perfil para la BD cloud real. Completar con las credenciales de Oracle
+# cuando esten disponibles y correr con -Dspring-boot.run.profiles=cloud
+spring:
+  config:
+    activate:
+      on-profile: cloud
+  datasource:
+    url: jdbc:oracle:thin:@//CAMBIAR-HOST:1521/CAMBIAR-SERVICE_NAME
+    driver-class-name: oracle.jdbc.OracleDriver
+    username: CAMBIAR_USUARIO
+    password: CAMBIAR_PASSWORD
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.OracleDialect
