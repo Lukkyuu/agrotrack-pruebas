@@ -1,6 +1,5 @@
 import React from 'react';
 import { DeliveryStatus } from '../../types/agrotrack';
-import { statusConfigMap } from '../../data/mockData';
 
 interface DeliveryStatusBadgeProps {
   readonly status: DeliveryStatus;
@@ -12,34 +11,63 @@ interface DeliveryStatusBadgeProps {
 export const DeliveryStatusBadge: React.FC<DeliveryStatusBadgeProps> = ({
   status,
   size = 'md',
-  showDot = true,
+  showDot = false,
   className = '',
 }) => {
-  const config = statusConfigMap[status] || {
+  const config = {
+    REGISTRADA: {
+      label: 'Registrada',
+      bgClass: 'bg-white text-[#5C3D2E]',
+      dotClass: 'bg-slate-400',
+    },
+    RECIBIDA: {
+      label: 'Recibida',
+      bgClass: 'bg-[#FFC94D] text-[#5C3D2E]',
+      dotClass: 'bg-[#5C3D2E]',
+    },
+    EN_CLASIFICACION: {
+      label: 'En Clasificación',
+      bgClass: 'bg-[#8ED8F8] text-[#5C3D2E]',
+      dotClass: 'bg-blue-600',
+    },
+    EN_DESPACHO: {
+      label: 'En Despacho',
+      bgClass: 'bg-[#C8F0D9] text-[#3F9E67]',
+      dotClass: 'bg-[#3F9E67]',
+    },
+    DESPACHADA: {
+      label: 'Despachada',
+      bgClass: 'bg-[#3F9E67] text-white',
+      dotClass: 'bg-emerald-300',
+    },
+    RECHAZADA: {
+      label: 'Rechazada',
+      bgClass: 'bg-[#E8543E] text-white',
+      dotClass: 'bg-rose-200',
+    },
+  }[status] || {
     label: status,
-    colorClass: 'text-slate-600 dark:text-slate-400',
-    bgClass: 'bg-slate-100 dark:bg-slate-800 border-slate-300 dark:border-slate-700',
+    bgClass: 'bg-white text-[#5C3D2E]',
     dotClass: 'bg-slate-400',
   };
 
   const sizeClasses = {
-    sm: 'text-xs px-2 py-0.5 gap-1.5',
-    md: 'text-xs font-medium px-2.5 py-1 gap-1.5',
-    lg: 'text-sm font-medium px-3 py-1.5 gap-2',
+    sm: 'text-[11px] px-2.5 py-0.5',
+    md: 'text-xs px-3 py-1',
+    lg: 'text-sm px-3.5 py-1.5',
   }[size];
 
   return (
     <span
-      className={`inline-flex items-center rounded-full border transition-colors ${sizeClasses} ${config.bgClass} ${config.colorClass} ${className}`}
-      title={`Estado: ${config.label}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border-2 border-[#5C3D2E] font-baloo font-bold whitespace-nowrap shadow-comic-sm ${sizeClasses} ${config.bgClass} ${className}`}
     >
       {showDot && (
         <span
-          className={`inline-block h-2 w-2 rounded-full ${config.dotClass} shrink-0 animate-pulse`}
+          className={`h-1.5 w-1.5 rounded-full ${config.dotClass}`}
           aria-hidden="true"
         />
       )}
-      <span className="font-semibold tracking-wide">{config.label}</span>
+      <span>{config.label}</span>
     </span>
   );
 };
